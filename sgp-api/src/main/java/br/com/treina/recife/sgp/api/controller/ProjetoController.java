@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.treina.recife.sgp.api.dto.DadosProjeto;
+import br.com.treina.recife.sgp.api.enums.StatusProjeto;
 import br.com.treina.recife.sgp.api.model.Projeto;
 import br.com.treina.recife.sgp.api.service.ProjetoService;
 
@@ -73,6 +76,16 @@ public class ProjetoController {
 
         dadosAtualizados.setId(id);
         return ResponseEntity.ok(projetoService.salvarProjeto(dadosAtualizados));
+    }
+
+    @GetMapping("/busca")
+    public ResponseEntity<List<DadosProjeto>> buscarPeloStatus(@RequestParam StatusProjeto status) {
+        return ResponseEntity.ok(projetoService.buscarPeloStatus(status));
+    }
+
+    @GetMapping("/responsavel/{id}")
+    public ResponseEntity<List<DadosProjeto>> buscarPeloResponsavel(@PathVariable("id") Long usuarioRespId) {
+        return ResponseEntity.ok(projetoService.buscarPeloResponsavel(usuarioRespId));
     }
 
 }
