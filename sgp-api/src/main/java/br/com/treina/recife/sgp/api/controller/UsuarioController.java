@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.treina.recife.sgp.api.dto.DadosUsuario;
 import br.com.treina.recife.sgp.api.model.Usuario;
 import br.com.treina.recife.sgp.api.service.UsuarioService;
 
@@ -26,19 +27,19 @@ public class UsuarioController {
     private UsuarioService usuarioService;
 
     @PostMapping
-    public ResponseEntity<Usuario> cadastrar(@RequestBody Usuario usuario) {
+    public ResponseEntity<DadosUsuario> cadastrar(@RequestBody Usuario usuario) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(usuarioService.salvarUsuario(usuario));
     }
 
     @GetMapping
-    public ResponseEntity<List<Usuario>> listar() {
+    public ResponseEntity<List<DadosUsuario>> listar() {
         return ResponseEntity.ok(usuarioService.listarUsuarios());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> buscarPeloId(@PathVariable Long id) {
-        Usuario usuario = usuarioService.buscarUsuario(id);
+    public ResponseEntity<DadosUsuario> buscarPeloId(@PathVariable Long id) {
+        DadosUsuario usuario = usuarioService.buscarUsuario(id);
 
         if (Objects.isNull(usuario)) {
             return ResponseEntity.notFound().build();
@@ -49,7 +50,7 @@ public class UsuarioController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> excluir(@PathVariable Long id) {
-        Usuario usuario = usuarioService.buscarUsuario(id);
+        DadosUsuario usuario = usuarioService.buscarUsuario(id);
 
         if (Objects.isNull(usuario)) {
             return ResponseEntity.notFound().build();
@@ -61,11 +62,11 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Usuario> atualizar(
+    public ResponseEntity<DadosUsuario> atualizar(
         @PathVariable Long id,
         @RequestBody Usuario dadosAtualizados
     ) {
-        Usuario usuario = usuarioService.buscarUsuario(id);
+        DadosUsuario usuario = usuarioService.buscarUsuario(id);
 
         if (Objects.isNull(usuario)) {
             return ResponseEntity.notFound().build();
