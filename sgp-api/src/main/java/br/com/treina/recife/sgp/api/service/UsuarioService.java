@@ -27,15 +27,8 @@ public class UsuarioService {
 
     // SELECT * FROM TB_USUARIOS
     public List<DadosUsuario> listarUsuarios() {
-        List<Usuario> usuarios = usuarioRepository.findAll();
-
-        List<DadosUsuario> listaUsuarios = new ArrayList<>();
-
-        for (Usuario usuario : usuarios) {
-            listaUsuarios.add(converterParaDTO(usuario));
-        }
-
-        return listaUsuarios;
+        return usuarioRepository.findAll()
+                                .stream().map(usuario -> converterParaDTO(usuario)).toList();
     }
 
     // SELECT * FROM TB_USUARIOS WHERE id = ?
@@ -113,27 +106,13 @@ public class UsuarioService {
     }
 
     public List<DadosUsuario> buscarPeloNome(String nome) {
-        List<Usuario> usuarios = usuarioRepository.findByNomeContainingIgnoreCase(nome);
-
-        List<DadosUsuario> listaUsuarios = new ArrayList<>();
-
-        for (Usuario usuario : usuarios) {
-            listaUsuarios.add(converterParaDTO(usuario));
-        }
-
-        return listaUsuarios;
+        return usuarioRepository.findByNomeContainingIgnoreCase(nome)
+                                .stream().map(usuario -> converterParaDTO(usuario)).toList();
     }
 
     public List<DadosUsuario> filtrarPelaDataNascimento(LocalDate dataInicio, LocalDate dataFinal) {
-        List<Usuario> usuarios = usuarioRepository.findByDataNascimentoBetween(dataInicio, dataFinal);
-
-        List<DadosUsuario> listaUsuarios = new ArrayList<>();
-
-        for (Usuario usuario : usuarios) {
-            listaUsuarios.add(converterParaDTO(usuario));
-        }
-
-        return listaUsuarios;
+        return usuarioRepository.findByDataNascimentoBetween(dataInicio, dataFinal)
+                                .stream().map(usuario -> converterParaDTO(usuario)).toList();
     }
 
 }
