@@ -79,4 +79,61 @@ public class UsuarioService {
         );
     }
 
+    public DadosUsuario buscarPeloCPF(String cpf) {
+        Usuario usuario = usuarioRepository.findByCpf(cpf).orElse(null);
+
+        if (Objects.isNull(usuario)) {
+            // TODO: Lançar exceção.
+            return null;
+        }
+
+        return converterParaDTO(usuario);
+    }
+
+    public DadosUsuario buscarPeloEmail(String email) {
+        Usuario usuario = usuarioRepository.findByEmail(email).orElse(null);
+
+        if (Objects.isNull(usuario)) {
+            // TODO: Lançar exceção.
+            return null;
+        }
+
+        return converterParaDTO(usuario);
+    }
+
+    public DadosUsuario buscarPeloEmailESenha(String email, String senha) {
+        Usuario usuario = usuarioRepository.findByEmailAndSenha(email, senha).orElse(null);
+
+        if (Objects.isNull(usuario)) {
+            // TODO: Lançar exceção.
+            return null;
+        }
+
+        return converterParaDTO(usuario);
+    }
+
+    public List<DadosUsuario> buscarPeloNome(String nome) {
+        List<Usuario> usuarios = usuarioRepository.findByNomeContainingIgnoreCase(nome);
+
+        List<DadosUsuario> listaUsuarios = new ArrayList<>();
+
+        for (Usuario usuario : usuarios) {
+            listaUsuarios.add(converterParaDTO(usuario));
+        }
+
+        return listaUsuarios;
+    }
+
+    public List<DadosUsuario> filtrarPelaDataNascimento(LocalDate dataInicio, LocalDate dataFinal) {
+        List<Usuario> usuarios = usuarioRepository.findByDataNascimentoBetween(dataInicio, dataFinal);
+
+        List<DadosUsuario> listaUsuarios = new ArrayList<>();
+
+        for (Usuario usuario : usuarios) {
+            listaUsuarios.add(converterParaDTO(usuario));
+        }
+
+        return listaUsuarios;
+    }
+
 }
